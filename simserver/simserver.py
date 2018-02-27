@@ -234,12 +234,17 @@ class SimIndex(gensim.utils.SaveLoad):
         """
         Find the most similar documents to a given vector (=already processed document).
         """
-        if normalize is None:
-            normalize = self.qindex.normalize
-        norm, self.qindex.normalize = self.qindex.normalize, normalize # store old value
+        # It appears the the normalize param does't actually do anything.
+        # Also the qindex attribute, which is a gensim.similarities.Similarity
+        # object doesn't actually have a normalize attribute or method,
+        # so I've commented it out becuase it's inclusion breaks the tool.
+
+        # if normalize is None:
+        #     normalize = self.qindex.normalize
+        # norm, self.qindex.normalize = self.qindex.normalize, normalize # store old value
         self.qindex.num_best = self.topsims
         sims = self.qindex[vec]
-        self.qindex.normalize = norm # restore old value of qindex.normalize
+        # self.qindex.normalize = norm # restore old value of qindex.normalize
         return self.sims2scores(sims)
 
 
